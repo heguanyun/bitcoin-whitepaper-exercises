@@ -1,6 +1,7 @@
 "use strict";
 
 var crypto = require("crypto");
+const { json } = require("stream/consumers");
 
 // The Power of a Smile
 // by Tupac Shakur
@@ -28,16 +29,34 @@ Blockchain.blocks.push({
 });
 
 // TODO: insert each line into blockchain
-// for (let line of poem) {
-// }
+ for (let line of poem) {
+	 createBlock(line)
+ }
+  
+//create a function called[] create block()
+function createBlock(_data){
+	let block = {
+		index: Blockchain.blocks.length,
+		prevHash:Blockchain.blocks[Blockchain.blocks.
+		length-1].hash,
+		data:_data,
+		timestamp:Date.now()
+	}
+	block.hash= blockHash(block)
+	Blockchain.blocks.push(block)
+	console.log(block)
+	return block
+}
 
-// console.log(`Blockchain is valid: ${verifyChain(Blockchain)}`);
+console.log(`Blockchain is valid: ${verifyChain(Blockchain)}`);
 
 
 // **********************************
 
 function blockHash(bl) {
+	// let bl = JSON.stringify(bl)
 	return crypto.createHash("sha256").update(
 		// TODO: use block data to calculate hash
+	`${bl.index};${bl.prevHash};${bl.data};${bl.timestamp};`
 	).digest("hex");
 }
